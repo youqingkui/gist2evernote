@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "test_save.js",
+  "sourceRoot": "",
+  "sources": [
+    "test_save.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA,uCAAA;;AAAA,EAAA,OAAA,GAAU,OAAA,CAAQ,SAAR,CAAV,CAAA;;AAAA,EACA,KAAA,GAAQ,OAAA,CAAQ,OAAR,CADR,CAAA;;AAAA,EAEA,SAAA,GAAY,OAAA,CAAQ,YAAR,CAFZ,CAAA;;AAAA,EAGA,OAAA,GAAU,OAAA,CAAQ,SAAR,CAHV,CAAA;;AAAA,EAMA,GAAA,GAAM,EANN,CAAA;AAAA"
+}
