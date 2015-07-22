@@ -23,3 +23,6 @@ makeNote = (noteStore, noteTitle, noteBody, parentNotebook, callback) ->
       callback note
     return
   return
+
+
+module.exports = makeNote

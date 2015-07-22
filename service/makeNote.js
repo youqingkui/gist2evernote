@@ -24,6 +24,8 @@
     });
   };
 
+  module.exports = makeNote;
+
 }).call(this);
 
 //# sourceMappingURL=makeNote.js.map
