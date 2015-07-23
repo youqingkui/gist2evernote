@@ -17,9 +17,9 @@
     }
     noteStore.createNote(ourNote, function(err, note) {
       if (err) {
-        console.log(err);
+        console.log(callback(err));
       } else {
-        callback(note);
+        callback(null, note);
       }
     });
   };

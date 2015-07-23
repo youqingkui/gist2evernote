@@ -1,7 +1,7 @@
 mongoose = require('./mongoose')
 
 gistsSchema = mongoose.Schema
-  gitst_id:String
+  gitst_id:{type:String, unique: true}
   files:Array
   created_at:String
   updated_at:String
@@ -10,4 +10,4 @@ gistsSchema = mongoose.Schema
   html_content:String
 
 
-module.exports = mongoose.model('Gists', gistsSchema)
+module.exports = mongoose.model('Gist', gistsSchema)

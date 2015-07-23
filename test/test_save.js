@@ -35,6 +35,7 @@
         number = item.attribs['data-line-number'];
         return $(this).text(number);
       });
+      $(".js-line-number").remove();
       $("*").map(function(i, elem) {
         var k, v, _ref, _results;
         _ref = elem.attribs;

@@ -5,7 +5,10 @@
   mongoose = require('./mongoose');
 
   gistsSchema = mongoose.Schema({
-    gitst_id: String,
+    gitst_id: {
+      type: String,
+      unique: true
+    },
     files: Array,
     created_at: String,
     updated_at: String,
@@ -14,8 +17,8 @@
     html_content: String
   });
 
-  module.exports = mongoose.model('Gists', gistsSchema);
+  module.exports = mongoose.model('Gist', gistsSchema);
 
 }).call(this);
 
-//# sourceMappingURL=gists.js.map
+//# sourceMappingURL=gist.js.map

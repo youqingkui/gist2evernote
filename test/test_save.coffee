@@ -20,7 +20,7 @@ request.get url, (err, res, body) ->
     $(".js-line-number").each (index, item) ->
       number = item.attribs['data-line-number']
       $(this).text(number)
-#    $(".js-line-number").remove()
+    $(".js-line-number").remove()
     $("*").map (i, elem) ->
       for k, v of elem.attribs
         if k != 'style'
@@ -35,6 +35,6 @@ request.get url, (err, res, body) ->
       console.log note
 
 
-      
+
 
 

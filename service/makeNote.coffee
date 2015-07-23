@@ -18,9 +18,9 @@ makeNote = (noteStore, noteTitle, noteBody, parentNotebook, callback) ->
 # Something was wrong with the note data
 # See EDAMErrorCode enumeration for error code explanation
 # http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
-      console.log err
+      console.log callback(err)
     else
-      callback note
+      callback null, note
     return
   return
 
