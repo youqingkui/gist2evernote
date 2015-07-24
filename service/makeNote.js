@@ -12,8 +12,8 @@
     ourNote = new Evernote.Note;
     ourNote.title = noteTitle;
     ourNote.content = nBody;
-    if (parentNotebook && parentNotebook.guid) {
-      ourNote.notebookGuid = parentNotebook.guid;
+    if (parentNotebook) {
+      ourNote.notebookGuid = parentNotebook;
     }
     noteStore.createNote(ourNote, function(err, note) {
       if (err) {

@@ -114,8 +114,6 @@ class ListGist
         gist.html_content = html
         gist.save (err, row) ->
           return console.log err if err
-
-          
     ]
 
 

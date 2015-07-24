@@ -9,9 +9,8 @@ makeNote = (noteStore, noteTitle, noteBody, parentNotebook, callback) ->
   ourNote = new (Evernote.Note)
   ourNote.title = noteTitle
   ourNote.content = nBody
-  # parentNotebook is optional; if omitted, default notebook is used
-  if parentNotebook and parentNotebook.guid
-    ourNote.notebookGuid = parentNotebook.guid
+  if parentNotebook
+    ourNote.notebookGuid = parentNotebook
   # Attempt to create note in Evernote account
   noteStore.createNote ourNote, (err, note) ->
     if err
