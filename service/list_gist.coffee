@@ -27,10 +27,10 @@ class ListGist
 
 
   findGist: (gistID, cb) ->
-    Gists.findOne {gist_id:gistID}, (err, row) ->
+    Gists.findOne {gitst_id:gistID}, (err, row) ->
       return cb(err) if err
 
-      if row
+      if not row
         return cb()
 
       return cb(null, row)
@@ -90,6 +90,19 @@ class ListGist
   saveGist: (gistInfo, cb) ->
     self = @
     async.waterfall [
+
+      (callback) ->
+        console.log "gistInfo.id", gistInfo.id
+        self.findGist gistInfo.id, (err, row) ->
+          return console.log err if err
+          if row
+            console.log "#############"
+            console.log "find ", gistInfo.id
+            console.log "#############"
+            cb()
+          else
+            callback()
+
       (callback) ->
         self.getGistHtml gistInfo.html_url, (err, html) ->
           return console.log err if err
@@ -103,17 +116,21 @@ class ListGist
 
       (note, html, callback) ->
         gist = Gists()
-        gist.id = gistInfo.id
+        gist.gitst_id = gistInfo.id
         gist.html_url = gistInfo.html_url
         gist.created_at = gistInfo.created_at
         gist.updated_at = gistInfo.updated_at
         gist.description = gistInfo.description
+        gist.guid = note.guid
         gist.files = []
         for k, v of gistInfo.files
           gist.files.push v
         gist.html_content = html
         gist.save (err, row) ->
           return console.log err if err
+
+          console.log note
+          cb()
     ]
 
 
@@ -122,14 +139,26 @@ class ListGist
 
 
 
-
-
-
 l = new ListGist()
-l.getGist (err, data) ->
-  data = JSON.parse data
-#  console.log data
+async.waterfall [
+  (cb) ->
+    l.getGist (err, data) ->
+      return console.log err if err
 
-  l.saveGist(data[0])
+      data = JSON.parse data
+      cb(null, data)
+
+  (data, cb) ->
+    async.eachSeries data, (item, callback) ->
+      console.log("here")
+      l.saveGist(item, callback)
+
+
+
+
+
+
+]
+
 
 

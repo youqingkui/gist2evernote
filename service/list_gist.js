@@ -41,12 +41,12 @@
 
     ListGist.prototype.findGist = function(gistID, cb) {
       return Gists.findOne({
-        gist_id: gistID
+        gitst_id: gistID
       }, function(err, row) {
         if (err) {
           return cb(err);
         }
-        if (row) {
+        if (!row) {
           return cb();
         }
         return cb(null, row);
@@ -135,6 +135,21 @@
       self = this;
       return async.waterfall([
         function(callback) {
+          console.log("gistInfo.id", gistInfo.id);
+          return self.findGist(gistInfo.id, function(err, row) {
+            if (err) {
+              return console.log(err);
+            }
+            if (row) {
+              console.log("#############");
+              console.log("find ", gistInfo.id);
+              console.log("#############");
+              return cb();
+            } else {
+              return callback();
+            }
+          });
+        }, function(callback) {
           return self.getGistHtml(gistInfo.html_url, function(err, html) {
             if (err) {
               return console.log(err);
@@ -151,11 +166,12 @@
         }, function(note, html, callback) {
           var gist, k, v, _ref;
           gist = Gists();
-          gist.id = gistInfo.id;
+          gist.gitst_id = gistInfo.id;
           gist.html_url = gistInfo.html_url;
           gist.created_at = gistInfo.created_at;
           gist.updated_at = gistInfo.updated_at;
           gist.description = gistInfo.description;
+          gist.guid = note.guid;
           gist.files = [];
           _ref = gistInfo.files;
           for (k in _ref) {
@@ -167,6 +183,8 @@
             if (err) {
               return console.log(err);
             }
+            console.log(note);
+            return cb();
           });
         }
       ]);
@@ -178,10 +196,22 @@
 
   l = new ListGist();
 
-  l.getGist(function(err, data) {
-    data = JSON.parse(data);
-    return l.saveGist(data[0]);
-  });
+  async.waterfall([
+    function(cb) {
+      return l.getGist(function(err, data) {
+        if (err) {
+          return console.log(err);
+        }
+        data = JSON.parse(data);
+        return cb(null, data);
+      });
+    }, function(data, cb) {
+      return async.eachSeries(data, function(item, callback) {
+        console.log("here");
+        return l.saveGist(item, callback);
+      });
+    }
+  ]);
 
 }).call(this);
 
