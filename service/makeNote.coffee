@@ -1,7 +1,7 @@
 Evernote = require('evernote').Evernote
 
 
-makeNote = (noteStore, noteTitle, noteBody, parentNotebook, callback) ->
+makeNote = (noteStore, noteTitle, noteBody, options, callback) ->
   nBody = '<?xml version="1.0" encoding="UTF-8"?>'
   nBody += '<!DOCTYPE en-note SYSTEM "http://xml.evernote.com/pub/enml2.dtd">'
   nBody += '<en-note>' + noteBody + '</en-note>'
@@ -9,8 +9,16 @@ makeNote = (noteStore, noteTitle, noteBody, parentNotebook, callback) ->
   ourNote = new (Evernote.Note)
   ourNote.title = noteTitle
   ourNote.content = nBody
-  if parentNotebook
-    ourNote.notebookGuid = parentNotebook
+  if options
+    attr = new Evernote.NoteAttributes
+    if options.notebookGuid
+      ourNote.notebookGuid = options.notebookGuid
+    if options.tagNames
+      ourNote.tagNames = options.tagNames
+    if options.sourceURL
+      attr.sourceURL = options.sourceURL
+
+    ourNote.attributes = attr
   # Attempt to create note in Evernote account
   noteStore.createNote ourNote, (err, note) ->
     if err

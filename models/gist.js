@@ -9,6 +9,10 @@
       type: String,
       unique: true
     },
+    guid: {
+      type: String,
+      unique: true
+    },
     files: Array,
     created_at: String,
     updated_at: String,

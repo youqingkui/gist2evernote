@@ -81,8 +81,15 @@ class ListGist
 
 
   pushEvernote: (html, gistInfo, cb) ->
+    self = @
     guid = '9fad7bbe-9b7d-40f4-a7d9-78ae99a5730e'
-    makeNote noteStore, gistInfo.description, html, guid, (err, note) ->
+    tag  = self.getTag(gistInfo)
+    options = {
+      notebookGuid:guid
+      tagNames:tag
+      sourceURL:gistInfo.html_url
+    }
+    makeNote noteStore, gistInfo.description, html, options, (err, note) ->
       return console.log err if err
       cb(null, note)
 
@@ -132,6 +139,15 @@ class ListGist
           console.log note
           cb()
     ]
+
+
+  getTag:(gistInfo) ->
+    tag = []
+    for k, v of gistInfo.files
+      tag.push(v.language)
+
+    return tag
+
 
 
 

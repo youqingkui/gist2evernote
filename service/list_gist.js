@@ -120,9 +120,16 @@
     };
 
     ListGist.prototype.pushEvernote = function(html, gistInfo, cb) {
-      var guid;
+      var guid, options, self, tag;
+      self = this;
       guid = '9fad7bbe-9b7d-40f4-a7d9-78ae99a5730e';
-      return makeNote(noteStore, gistInfo.description, html, guid, function(err, note) {
+      tag = self.getTag(gistInfo);
+      options = {
+        notebookGuid: guid,
+        tagNames: tag,
+        sourceURL: gistInfo.html_url
+      };
+      return makeNote(noteStore, gistInfo.description, html, options, function(err, note) {
         if (err) {
           return console.log(err);
         }
@@ -188,6 +195,17 @@
           });
         }
       ]);
+    };
+
+    ListGist.prototype.getTag = function(gistInfo) {
+      var k, tag, v, _ref;
+      tag = [];
+      _ref = gistInfo.files;
+      for (k in _ref) {
+        v = _ref[k];
+        tag.push(v.language);
+      }
+      return tag;
     };
 
     return ListGist;

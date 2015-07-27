@@ -2,6 +2,7 @@ mongoose = require('./mongoose')
 
 gistsSchema = mongoose.Schema
   gitst_id:{type:String, unique: true}
+  guid:{type:String, unique: true}
   files:Array
   created_at:String
   updated_at:String
