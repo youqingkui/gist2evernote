@@ -5,6 +5,7 @@ inlineCss = require('inline-css')
 cheerio = require('cheerio')
 makeNote = require('../service/makeNote')
 noteStore = require('../service/noteStroe')
+schedule = require("node-schedule")
 
 class ListGist
   constructor: () ->
@@ -99,13 +100,13 @@ class ListGist
     async.waterfall [
 
       (callback) ->
-        console.log "gistInfo.id", gistInfo.id
         self.findGist gistInfo.id, (err, row) ->
           return console.log err if err
           if row
             console.log "#############"
+            console.log "gistInfo.id", gistInfo.id
             console.log "find ", gistInfo.id
-            console.log "#############"
+            console.log "#############\n"
             cb()
           else
             callback()
@@ -136,12 +137,12 @@ class ListGist
         gist.save (err, row) ->
           return console.log err if err
 
-          console.log note
+          console.log("create ok", note.title)
           cb()
     ]
 
-  upGist:(guid, gistInfo, cb) ->
-    self = @
+#  upGist:(guid, gistInfo, cb) ->
+#    self = @
 
 
 
@@ -159,19 +160,23 @@ class ListGist
 
 
 
-l = new ListGist()
-async.waterfall [
-  (cb) ->
-    l.getGist (err, data) ->
-      return console.log err if err
+rule = new schedule.RecurrenceRule()
+rule.dayOfWeek = [0, new schedule.Range(1, 6)]
+rule.hour = 18
+rule.minute = 0
+j = schedule.scheduleJob rule, () ->
+  l = new ListGist()
+  async.waterfall [
+    (cb) ->
+      l.getGist (err, data) ->
+        return console.log err if err
 
-      data = JSON.parse data
-      cb(null, data)
+        data = JSON.parse data
+        cb(null, data)
 
-  (data, cb) ->
-    async.eachSeries data, (item, callback) ->
-      console.log("here")
-      l.saveGist(item, callback)
+    (data) ->
+      async.eachSeries data, (item, callback) ->
+        l.saveGist(item, callback)
 
 
 

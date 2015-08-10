@@ -6,6 +6,7 @@
     "evernote": "^1.25.81",
     "inline-css": "^1.0.5",
     "mongoose": "^4.0.8",
+    "node-schedule": "^0.2.9",
     "request": "^2.60.0"
   }
 }
