@@ -140,6 +140,10 @@ class ListGist
           cb()
     ]
 
+  upGist:(guid, gistInfo, cb) ->
+    self = @
+
+
 
   getTag:(gistInfo) ->
     tag = []

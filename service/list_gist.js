@@ -197,6 +197,11 @@
       ]);
     };
 
+    ListGist.prototype.upGist = function(guid, gistInfo, cb) {
+      var self;
+      return self = this;
+    };
+
     ListGist.prototype.getTag = function(gistInfo) {
       var k, tag, v, _ref;
       tag = [];
